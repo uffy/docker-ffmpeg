@@ -4,7 +4,7 @@ CMD         ["--help"]
 ENTRYPOINT  ["ffmpeg"]
 WORKDIR     /tmp/ffmpeg
 
-ENV SOFTWARE_VERSION="4.1"
+ENV SOFTWARE_VERSION="4.1.3"
 ENV SOFTWARE_VERSION_URL="http://ffmpeg.org/releases/ffmpeg-${SOFTWARE_VERSION}.tar.bz2"
 ENV BIN="/usr/bin"
 
