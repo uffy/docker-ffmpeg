@@ -1,10 +1,10 @@
-FROM alpine:3.7
+FROM alpine:3.10
 
 CMD         ["--help"]
 ENTRYPOINT  ["ffmpeg"]
 WORKDIR     /tmp/ffmpeg
 
-ENV SOFTWARE_VERSION="4.1.3"
+ENV SOFTWARE_VERSION="4.2.1"
 ENV SOFTWARE_VERSION_URL="http://ffmpeg.org/releases/ffmpeg-${SOFTWARE_VERSION}.tar.bz2"
 ENV BIN="/usr/bin"
 
@@ -13,6 +13,11 @@ cd && \
 apk update && \
 apk upgrade && \
 apk add \
+  git \
+  make \
+  g++ \
+  meson \
+  pkgconfig \
   freetype-dev \
   gnutls-dev \
   lame-dev \
@@ -29,6 +34,10 @@ apk add \
   x265-dev \
   yasm-dev \
   fdk-aac-dev && \
+# add libvmaf
+git clone --depth 1 https://github.com/Netflix/vmaf.git vmaf && \
+cd vmaf && make && make install && cp -r /usr/local/include/libvmaf/* /usr/local/include && \
+# vmaf end
 apk add --no-cache --virtual \
   .build-dependencies \
   build-base \
@@ -60,6 +69,7 @@ PATH="$BIN:$PATH" && \
   --enable-libvorbis \
   --enable-libvpx \
   --enable-libwebp \
+  --enable-libvmaf \
   --enable-libx264 \
   --enable-libx265 \
   --enable-nonfree \
