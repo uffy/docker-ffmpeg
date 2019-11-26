@@ -1,9 +1,12 @@
 # docker-ffmpeg
 
-OS: alpine:3.10
-FFMPEG: 4.2.1
+## OS: 
+alpine:3.10
 
-OPTIONS:
+## FFMPEG: 
+4.2.1
+
+## OPTIONS:
 
 - disable doc
 - disable ffplay
