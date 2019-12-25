@@ -55,9 +55,14 @@ cd ffmpeg* && \
 PATH="$BIN:$PATH" && \
 ./configure --help && \
 ./configure --bindir="$BIN" --disable-debug \
+  --disable-shared \
   --disable-doc \
+  --enable-static \
   --disable-ffplay \
+  --enable-libzimg \
+  --enable-ffprobe \
   --enable-avresample \
+  --enable-libsvthevc \
   --enable-gnutls \
   --enable-gpl \
   --enable-libass \
