@@ -59,7 +59,6 @@ PATH="$BIN:$PATH" && \
   --disable-doc \
   --enable-static \
   --disable-ffplay \
-  --enable-libzimg \
   --enable-ffprobe \
   --enable-avresample \
   --enable-libsvthevc \
@@ -79,7 +78,6 @@ PATH="$BIN:$PATH" && \
   --enable-libx265 \
   --enable-nonfree \
   --enable-postproc \
-  --enable-small \
   --enable-version3 \
   --enable-libfdk-aac && \
 make -j4 && \
