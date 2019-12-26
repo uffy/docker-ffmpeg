@@ -33,25 +33,28 @@ apk add \
   x264-dev \
   x265-dev \
   yasm-dev \
-  fdk-aac-dev && \
+  fdk-aac-dev
+
 # add libvmaf
-git clone --depth 1 https://github.com/Netflix/vmaf.git vmaf && \
-cd vmaf && make && make install && cp -r /usr/local/include/libvmaf/* /usr/local/include && \
+RUN git clone --depth 1 https://github.com/Netflix/vmaf.git vmaf && \
+cd vmaf && make && make install && cp -r /usr/local/include/libvmaf/* /usr/local/include
 # vmaf end
-apk add --no-cache --virtual \
+
+RUN apk add --no-cache --virtual \
   .build-dependencies \
   build-base \
   bzip2 \
   coreutils \
   gnutls \
   nasm \
-  tar \
-  x264 && \
-DIR=$(mktemp -d) && \
+  tar
+
+RUN DIR=/tmp/buildffmpeg && mkdir "${DIR}" && \
 cd "${DIR}" && \
 wget "${SOFTWARE_VERSION_URL}" && \
-tar xjvf "ffmpeg-${SOFTWARE_VERSION}.tar.bz2" && \
-cd ffmpeg* && \
+tar xjvf "ffmpeg-${SOFTWARE_VERSION}.tar.bz2"
+
+RUN cd /tmp/buildffmpeg/ffmpeg* && \
 PATH="$BIN:$PATH" && \
 ./configure --help && \
 ./configure --bindir="$BIN" --disable-debug \
@@ -60,10 +63,9 @@ PATH="$BIN:$PATH" && \
   --enable-static \
   --disable-ffplay \
   --enable-ffprobe \
-  --enable-avresample \
-  --enable-libsvthevc \
-  --enable-gnutls \
   --enable-gpl \
+  --enable-avresample \
+  --enable-gnutls \
   --enable-libass \
   --enable-libfreetype \
   --enable-libmp3lame \
@@ -78,11 +80,15 @@ PATH="$BIN:$PATH" && \
   --enable-libx265 \
   --enable-nonfree \
   --enable-postproc \
+#  --enable-small \
   --enable-version3 \
-  --enable-libfdk-aac && \
-make -j4 && \
+  --enable-libfdk-aac \
+&& make -j4 && \
 make install && \
 make distclean && \
 rm -rf "${DIR}"  && \
 apk del --purge .build-dependencies && \
-rm -rf /var/cache/apk/*
+rm -rf /var/cache/apk/* && \
+rm -rf /tmp/buildffmpeg
+
+WORKDIR /tmp
